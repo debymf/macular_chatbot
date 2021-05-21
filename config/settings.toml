@@ -1,4 +1,5 @@
 [default]
-txt_location = "./sample/sample_data/example_file.txt"
+input_data = "./data/input_data.csv"
+checkpoint_dir = "./cache/"
 [test]
-txt_location = "./tests/sample_data/example_file.txt"
+input_data = "./data/input_data.csv"
