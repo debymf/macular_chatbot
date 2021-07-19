@@ -32,6 +32,7 @@ class PrepareDataLiveQATask(Task):
             all_answers.append(answer)
 
         # gen the negative pairs
+
         negative_pairs = []
         logger.info("** Generating negative pairs **")
         for p in tqdm(positive_pairs):

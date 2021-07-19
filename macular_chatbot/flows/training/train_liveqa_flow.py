@@ -45,8 +45,8 @@ train_sentence_transformers = TrainSentenceTransformerTask()
 
 with Flow("Training model with LiveQA") as flow1:
     output_pairs = prepare_data_task(file_location)
-    dataloader = generate_data_loader_task(output_pairs)
-    train_sentence_transformers(dataloader, USED_MODEL, MODEL_OUTPUT)
+    data_for_training = generate_data_loader_task(output_pairs)
+    train_sentence_transformers(data_for_training, USED_MODEL, MODEL_OUTPUT)
     # evaluate_vectors(output_vectors)
 
 
