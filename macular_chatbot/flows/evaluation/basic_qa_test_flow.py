@@ -10,12 +10,27 @@ from macular_chatbot.tasks.transformers import ConvertToVectorsTask, EvaluateVec
 
 from prefect import Flow, Parameter, Task, tags, task
 from dynaconf import settings
+import argparse
 
 checkpoint_dir = settings["checkpoint_dir"]
 TASK_NAME = "chatbot_flow"
 file_location = settings["basic_qa_data"]
 # USED_MODEL = "paraphrase-mpnet-base-v2"
-USED_MODEL = "./models/msmarco-distilbert-base-v4_live_qa"
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--model",
+    metavar="Model name",
+    type=str,
+    nargs="?",
+    help="sentence embedding model",
+    default="msmarco-distilbert-base-v4",
+)
+args = parser.parse_args()
+
+USED_MODEL = args.model
+
 cache_args = dict(
     target="{task_name}-{task_tags}.pkl",
     checkpoint=True,
