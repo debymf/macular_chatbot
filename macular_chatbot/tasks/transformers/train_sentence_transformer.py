@@ -19,7 +19,7 @@ class TrainSentenceTransformerTask(Task):
         # Tune the model
         model.fit(
             train_objectives=[(data_for_training["dataloader"], train_loss)],
-            epochs=10,
+            epochs=5,
             warmup_steps=10,
             output_path=output_location,
             save_best_model=True,
