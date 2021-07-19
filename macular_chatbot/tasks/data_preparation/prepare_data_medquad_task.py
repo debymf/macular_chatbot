@@ -26,7 +26,7 @@ class PrepareDataMedQuadTask(Task):
                     if content.find("QAPair"):
                         answer = content.find("QAPair").find("Answer")
 
-                    if question and answer:
+                    if question.text and answer.text:
                         positive_pairs.append([question.text, answer.text])
                         all_answers[count] = answer.text
                         count = count + 1
