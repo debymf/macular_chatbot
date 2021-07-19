@@ -143,7 +143,7 @@ class BM25Vectorizer(feature_extraction.text.TfidfVectorizer):
 
 class BM25Fit:
     def run(self, text_input: Dict):
-        logger.info("Fitting BM25 search engine")
+
         corpus = list(text_input.values())
         ids = list(text_input.keys())
         vectorizer = BM25Vectorizer().fit(corpus)
