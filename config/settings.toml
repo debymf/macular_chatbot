@@ -1,5 +1,8 @@
 [default]
 input_data = "./data/input_data.csv"
+basic_qa_data = "./data/simple_qa_data.csv"
+live_qa_train = "./data/liveqa/TREC-2017-LiveQA-Medical-Train-2.xml"
+medquad_train = "./data/medquad/"
 checkpoint_dir = "./cache/"
 [test]
 input_data = "./data/input_data.csv"

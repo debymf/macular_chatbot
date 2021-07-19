@@ -1,1 +1,3 @@
 from .prepare_data_task import PrepareDataTask
+from .prepare_data_liveqa_task import PrepareDataLiveQATask
+from .prepare_data_medquad_task import PrepareDataMedQuadTask
