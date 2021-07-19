@@ -27,7 +27,7 @@ class PreparePairsForTrainingTask(Task):
             sentences2.append(positive[1])
             scores.append(1.0)
 
-        train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=32)
+        train_dataloader = DataLoader(train_examples, shuffle=True, batch_size=16)
 
         return {
             "dataloader": train_dataloader,
