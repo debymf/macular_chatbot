@@ -1,4 +1,4 @@
-# python -m macular_chatbot.flows.evaluation.basic_qa_test_flow
+# python -m macular_chatbot.flows.evaluation.basic_qa_test_flow --model="./models/msmarco-distilbert-base-v4_live_qa"
 
 from prefect import Flow
 import prefect
