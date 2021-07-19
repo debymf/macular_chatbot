@@ -1,4 +1,4 @@
-# python -m macular_chatbot.flows.training.train_liveqa_flow
+# python -m macular_chatbot.flows.training.train_liveqa_flow --model="msmarco-distilbert-base-v4"
 
 from prefect import Flow
 import prefect

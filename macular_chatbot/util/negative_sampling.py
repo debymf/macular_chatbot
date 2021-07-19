@@ -2,7 +2,7 @@ from loguru import logger
 import random
 
 
-def gen_negative_pairs(question, all_answers, positive_answer, num_neg=20):
+def gen_negative_pairs(question, all_answers, positive_answer, num_neg=50):
     no_duplicate = 1
     negative_pairs = []
     while no_duplicate == 1:
