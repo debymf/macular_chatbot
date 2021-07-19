@@ -19,14 +19,12 @@ class PrepareDataMedQuadTask(Task):
                 root = tree.getroot()
                 for content in root.findall("QAPairs"):
 
-                    question = content.find("QAPair")
+                    question = content.find("QAPair").find("Question")
 
-                    answer = content.find("QAPair")
+                    answer = content.find("QAPair").find("Answer")
 
                     if question and answer:
-                        positive_pairs.append(
-                            [question.find("Question").text, answer.find("Answer").text]
-                        )
+                        positive_pairs.append([question.text, answer.text])
                         all_answers.append(answer.text)
 
         # gen the negative pairs

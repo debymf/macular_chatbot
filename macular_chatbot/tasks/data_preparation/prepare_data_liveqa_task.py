@@ -14,9 +14,11 @@ class PrepareDataLiveQATask(Task):
         root = tree.getroot()
 
         positive_pairs = list()
-        all_answers = list()
+        all_answers = dict()
 
         # read the files
+
+        count = 0
         for content in root.findall("NLM-QUESTION"):
             question = content.find("MESSAGE").text
             if not question:
@@ -29,7 +31,8 @@ class PrepareDataLiveQATask(Task):
                 .text
             )
             positive_pairs.append([question, answer])
-            all_answers.append(answer)
+            all_answers[count] = answer
+            count += 1
 
         # gen the negative pairs
 
