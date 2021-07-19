@@ -10,14 +10,27 @@ from macular_chatbot.tasks.transformers import (
     PreparePairsForTrainingTask,
     TrainSentenceTransformerTask,
 )
-
+import argparse
 from prefect import Flow, Parameter, Task, tags, task
 from dynaconf import settings
 
 checkpoint_dir = settings["checkpoint_dir"]
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--model",
+    metavar="Model name",
+    type=str,
+    nargs="?",
+    help="sentence embedding model",
+    default="msmarco-distilbert-base-v4",
+)
+args = parser.parse_args()
+
+USED_MODEL = args.model
+
 TASK_NAME = "train_medquad_flow"
 file_location = settings["medquad_train"]
-USED_MODEL = "paraphrase-mpnet-base-v2"
 MODEL_OUTPUT = "./models/" + USED_MODEL + "_medquad"
 cache_args = dict(
     target="{task_name}-{task_tags}.pkl",
