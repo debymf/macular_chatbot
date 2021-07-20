@@ -7,7 +7,7 @@ from prefect.engine.flow_runner import FlowRunner
 from prefect.engine.results import LocalResult
 from macular_chatbot.tasks.data_preparation import PrepareDataTask
 from macular_chatbot.tasks.transformers import ConvertToVectorsTask, EvaluateVectorsTask
-
+from sentence_transformers import util
 from prefect import Flow, Parameter, Task, tags, task
 from dynaconf import settings
 import argparse
