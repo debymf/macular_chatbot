@@ -1,6 +1,11 @@
 from prefect import Task
 from loguru import logger
-from sentence_transformers import SentenceTransformer, util, losses, evaluation
+from sentence_transformers import (
+    SentenceTransformer,
+    util,
+    losses,
+    evaluation,
+)
 from .SentenceBertKB import SentenceBertKB
 from tqdm import tqdm
 
@@ -23,13 +28,13 @@ class TrainSentenceTransformerTask(Task):
 
         model = SentenceTransformer(model_name)
 
-        if "CosineSimilarityLoss" in score_function:
+        if "CosineSimilarityLoss" in loss_function:
             train_loss = losses.CosineSimilarityLoss(model)
         else:
             if "cos" in scoring_function:
-                distance_metric = SiameseDistanceMetric.COSINE_DISTANCE
+                distance_metric = losses.SiameseDistanceMetric.COSINE_DISTANCE
             else:
-                distance_metric = SiameseDistanceMetric.EUCLIDEAN
+                distance_metric = losses.SiameseDistanceMetric.EUCLIDEAN
 
             train_loss = losses.ContrastiveLoss(model, distance_metric=distance_metric)
 
