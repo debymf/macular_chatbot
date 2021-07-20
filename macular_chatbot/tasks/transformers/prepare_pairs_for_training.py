@@ -6,7 +6,7 @@ from .SentenceBertKB import SentenceBertKB
 
 
 class PreparePairsForTrainingTask(Task):
-    def run(self, input_data):
+    def run(self, input_data, batch_size=16):
         logger.info("** Converting Pairs for training with Sentence Transformers**")
         train_examples = list()
         scores = list()

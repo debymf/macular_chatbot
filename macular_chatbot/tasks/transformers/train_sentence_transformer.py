@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 
 class TrainSentenceTransformerTask(Task):
-    def run(self, data_for_training, model_name, output_location):
+    def run(self, data_for_training, model_name, output_location, num_epochs=5):
         evaluator = evaluation.EmbeddingSimilarityEvaluator(
             data_for_training["sentences1"],
             data_for_training["sentences2"],
@@ -19,10 +19,8 @@ class TrainSentenceTransformerTask(Task):
         # Tune the model
         model.fit(
             train_objectives=[(data_for_training["dataloader"], train_loss)],
-            epochs=5,
-            warmup_steps=100,
+            epochs=num_epochs,
             output_path=output_location,
             save_best_model=True,
             evaluator=evaluator,
-            evaluation_steps=500,
         )
