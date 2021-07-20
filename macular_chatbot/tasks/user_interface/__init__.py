@@ -1,1 +1,2 @@
 from .telegram_bot_task import TelegramBotTask
+from .speech_bot_task import SpeechBotTask

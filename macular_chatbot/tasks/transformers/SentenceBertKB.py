@@ -7,16 +7,16 @@ class SentenceBertKB:
         self.model = SentenceTransformer(model)
 
         all_facts = [content for id_question, content in input_data.items()]
+        all_ids = [id_question for id_question, content in input_data.items()]
 
         self.embeddings = self.model.encode(all_facts)
 
         self.kb = dict()
 
-        for id_fact, fact, embedding zip(all_facts.items(), self.embeddings):
+        for id_fact, fact, embedding in zip(all_ids, all_facts, self.embeddings):
             self.kb[len(self.kb)] = {
-               "fact": fact,
+                "fact": fact,
                 "embedding": embedding,
-            
             }
 
     def encode_sentence(self, input_question):
@@ -33,14 +33,12 @@ class SentenceBertKB:
 
         probability_retrieved_answer = hits[0][0]["score"]
 
-        
-
         print(retrieved_answer)
 
-        if probability_retrieved_answer < 0.60:
+        if probability_retrieved_answer < 0.50:
             retrieved_answer = "I don't know the answer to that one! :("
 
-        return retrieved_answer, probability_retrieved_answer, extra_info
+        return retrieved_answer, probability_retrieved_answer
 
 
 # class SentenceBertKB:
