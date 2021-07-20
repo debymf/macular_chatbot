@@ -1,4 +1,4 @@
-# python -m macular_chatbot.flows.evaluation.basic_qa_test_flow --model="./models/msmarco-distilbert-base-v4_live_qa"
+# python -m macular_chatbot.flows.evaluation.basic_qa_test_flow --model="./models/msmarco-distilbert-base-v4_live_qa" --scoring="dot"
 
 from prefect import Flow
 import prefect
@@ -27,6 +27,24 @@ parser.add_argument(
     help="sentence embedding model",
     default="msmarco-distilbert-base-v4",
 )
+
+parser.add_argument(
+    "--scoring",
+    metavar="Scoring function",
+    type=str,
+    nargs="?",
+    help="Scoring function",
+    default="cos",
+)
+
+scoring_function = args.scoring
+
+if "cos" in scoring_function:
+    score_function = util.cos_sim
+else:
+    score_function = util.dot_score
+
+
 args = parser.parse_args()
 
 USED_MODEL = args.model

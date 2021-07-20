@@ -2,7 +2,7 @@
 # python -m macular_chatbot.flows.training.train_medquad_flow --model="msmarco-distilbert-base-tas-b" ;
 # python -m macular_chatbot.flows.training.train_medquad_flow --model="paraphrase-mpnet-base-v2" ;
 # python -m macular_chatbot.flows.training.train_medquad_flow --model="nq-distilbert-base-v1" ;
-
+# python -m macular_chatbot.flows.training.train_medquad_flow --model="msmarco-distilbert-base-v4" --batch_size=16 --epochs=1
 
 from prefect import Flow
 import prefect
@@ -32,9 +32,29 @@ parser.add_argument(
     help="sentence embedding model",
     default="msmarco-distilbert-base-v4",
 )
+
+parser.add_argument(
+    "--batch_size",
+    metavar="Batch size",
+    type=int,
+    nargs="?",
+    default=16,
+)
+
+
+parser.add_argument(
+    "--epochs",
+    metavar="Number of epochs",
+    type=int,
+    nargs="?",
+    default=5,
+)
+
 args = parser.parse_args()
 
 USED_MODEL = args.model
+BATCH_SIZE = args.batch_size
+NUM_EPOCHS = args.epochs
 
 TASK_NAME = "train_medquad_flow"
 file_location = settings["medquad_train"]
@@ -53,8 +73,8 @@ train_sentence_transformers = TrainSentenceTransformerTask()
 with Flow("Training model with MedQuAD") as flow1:
     positive_pairs = prepare_data_task(file_location)
     output_pairs = gen_negative_pairs(positive_pairs)
-    dataloader = generate_data_loader_task(output_pairs)
-    train_sentence_transformers(dataloader, USED_MODEL, MODEL_OUTPUT)
+    dataloader = generate_data_loader_task(output_pairs, batch_size=BATCH_SIZE)
+    train_sentence_transformers(dataloader, USED_MODEL, MODEL_OUTPUT, NUM_EPOCHS)
 
 
 FlowRunner(flow=flow1).run()

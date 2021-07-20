@@ -7,9 +7,9 @@ from tqdm import tqdm
 
 class EvaluateVectorsTask(Task):
     @staticmethod
-    def get_closest(question_embedding, facts_embedding):
+    def get_closest(question_embedding, facts_embedding, score_function=util.cos_sim):
         retrieved = util.semantic_search(
-            question_embedding, facts_embedding, score_function=util.cos_sim, top_k=5
+            question_embedding, facts_embedding, score_function=score_function, top_k=5
         )
 
         return retrieved
