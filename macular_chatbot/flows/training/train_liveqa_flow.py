@@ -36,7 +36,6 @@ parser.add_argument(
     "--batch_size",
     metavar="Batch size",
     type=int,
-    nargs="?",
     default=16,
 )
 
@@ -45,7 +44,6 @@ parser.add_argument(
     "--epochs",
     metavar="Number of epochs",
     type=int,
-    nargs="?",
     default=5,
 )
 
