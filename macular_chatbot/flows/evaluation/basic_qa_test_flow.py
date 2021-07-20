@@ -24,7 +24,7 @@ def run_test_flow(used_model, score_function):
     evaluate_vectors = EvaluateVectorsTask()
     with Flow("Testing model without fine-tuning") as flow1:
         input_data = prepare_data_task(file_location)
-        output_vectors = convert_to_vectors(input_data, USED_MODEL)
+        output_vectors = convert_to_vectors(input_data, used_model)
         evaluate_vectors(output_vectors, score_function=score_function)
 
     FlowRunner(flow=flow1).run()
