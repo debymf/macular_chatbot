@@ -6,7 +6,15 @@ from tqdm import tqdm
 
 
 class TrainSentenceTransformerTask(Task):
-    def run(self, data_for_training, model_name, output_location, num_epochs=5):
+    def run(
+        self,
+        data_for_training,
+        model_name,
+        output_location,
+        num_epochs=5,
+        loss_function="ContrastiveLoss",
+        scoring_function="cos",
+    ):
         evaluator = evaluation.EmbeddingSimilarityEvaluator(
             data_for_training["sentences1"],
             data_for_training["sentences2"],
@@ -14,7 +22,16 @@ class TrainSentenceTransformerTask(Task):
         )
 
         model = SentenceTransformer(model_name)
-        train_loss = losses.CosineSimilarityLoss(model)
+
+        if "CosineSimilarityLoss" in score_function:
+            train_loss = losses.CosineSimilarityLoss(model)
+        else:
+            if "cos" in scoring_function:
+                distance_metric = SiameseDistanceMetric.COSINE_DISTANCE
+            else:
+                distance_metric = SiameseDistanceMetric.EUCLIDEAN
+
+            train_loss = losses.ContrastiveLoss(model, distance_metric=distance_metric)
 
         # Tune the model
         model.fit(
