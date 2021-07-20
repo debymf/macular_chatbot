@@ -5,7 +5,10 @@ import prefect
 from loguru import logger
 from prefect.engine.flow_runner import FlowRunner
 from prefect.engine.results import LocalResult
-from macular_chatbot.tasks.data_preparation import PrepareDataLiveQATask
+from macular_chatbot.tasks.data_preparation import (
+    PrepareDataLiveQATask,
+    GenNegativePairsTask,
+)
 from macular_chatbot.tasks.transformers import (
     PreparePairsForTrainingTask,
     TrainSentenceTransformerTask,
@@ -44,10 +47,10 @@ generate_data_loader_task = PreparePairsForTrainingTask()
 train_sentence_transformers = TrainSentenceTransformerTask()
 
 with Flow("Training model with LiveQA") as flow1:
-    output_pairs = prepare_data_task(file_location)
-    data_for_training = generate_data_loader_task(output_pairs)
-    train_sentence_transformers(data_for_training, USED_MODEL, MODEL_OUTPUT)
-    # evaluate_vectors(output_vectors)
+    positive_pairs = prepare_data_task(file_location)
+    output_pairs = gen_negative_pairs(positive_pairs)
+    dataloader = generate_data_loader_task(output_pairs)
+    train_sentence_transformers(dataloader, USED_MODEL, MODEL_OUTPUT)
 
 
 FlowRunner(flow=flow1).run()
