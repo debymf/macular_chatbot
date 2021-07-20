@@ -25,7 +25,7 @@ file_location = settings["live_qa_train"]
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--model",
-    metavar="Model name",
+    metavar="model",
     type=str,
     nargs="?",
     help="sentence embedding model",
@@ -34,7 +34,7 @@ parser.add_argument(
 
 parser.add_argument(
     "--batch_size",
-    metavar="Batch size",
+    metavar="batch_size",
     type=int,
     default=16,
 )
@@ -42,7 +42,7 @@ parser.add_argument(
 
 parser.add_argument(
     "--epochs",
-    metavar="Number of epochs",
+    metavar="epochs",
     type=int,
     default=5,
 )
@@ -50,7 +50,7 @@ parser.add_argument(
 
 parser.add_argument(
     "--scoring_function",
-    metavar="scoring function",
+    metavar="scoring_function",
     type=str,
     nargs="?",
     default="cos",
@@ -58,7 +58,7 @@ parser.add_argument(
 
 parser.add_argument(
     "--loss",
-    metavar="Loss function",
+    metavar="loss",
     type=str,
     nargs="?",
     help="Loss function",
