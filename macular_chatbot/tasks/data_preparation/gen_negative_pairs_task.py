@@ -29,7 +29,7 @@ class GenNegativePairsTask(Task):
         count = 0
         negative_pairs = []
         for i in range(0, len(all_questions)):
-            closest = list(retrieval_results[i].keys())[1:]
+            closest = list(retrieved_results[i].keys())[1:]
             for n in closest:
                 negative_pairs.append([all_questions[i], all_answers[n]])
 
