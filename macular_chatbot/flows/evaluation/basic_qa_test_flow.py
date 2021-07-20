@@ -37,6 +37,8 @@ parser.add_argument(
     default="cos",
 )
 
+args = parser.parse_args()
+
 scoring_function = args.scoring
 
 if "cos" in scoring_function:
@@ -44,8 +46,6 @@ if "cos" in scoring_function:
 else:
     score_function = util.dot_score
 
-
-args = parser.parse_args()
 
 USED_MODEL = args.model
 
