@@ -44,6 +44,7 @@ cache_args = dict(
 
 prepare_data_task = PrepareDataLiveQATask()
 generate_data_loader_task = PreparePairsForTrainingTask()
+gen_negative_pairs = GenNegativePairsTask()
 train_sentence_transformers = TrainSentenceTransformerTask()
 
 with Flow("Training model with LiveQA") as flow1:
