@@ -15,19 +15,20 @@ from sentence_transformers import util
 from prefect import Flow, Parameter, Task, tags, task
 from dynaconf import settings
 import argparse
+from macular_chatbot.tasks.user_interface import SpeechBotTask
 
 checkpoint_dir = settings["checkpoint_dir"]
 TASK_NAME = "chatbot_flow"
 file_location = settings["basic_qa_data"]
-USED_MODEL = "./models/msmarco-distilbert-base-tas-b_live_qa"
+USED_MODEL = "./models/msmarco-distilbert-base-v4_live_qa"
 
 
 prepare_data_task = PrepareDataTask()
 gen_kb = GenerateKBTask()
-evaluate_vectors = EvaluateVectorsTask()
-with Flow("Testing model without fine-tuning") as flow1:
+chatbot_task = SpeechBotTask()
+with Flow("Testing speech based chatbot") as flow1:
     input_data = prepare_data_task(file_location)
-    output_vectors = gen_kb(input_data["facts"])
-    evaluate_vectors(output_vectors, score_function=score_function)
+    kb = gen_kb(input_data["facts"], USED_MODEL)
+    chatbot_task(kb)
 
 FlowRunner(flow=flow1).run()
