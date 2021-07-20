@@ -1,16 +1,6 @@
 from prefect import Task
 from loguru import logger
 from sentence_transformers import SentenceTransformer, util
-from telegram import InlineKeyboardMarkup, InlineKeyboardButton, Update
-from telegram import Update, ForceReply
-from telegram.ext import (
-    Updater,
-    CommandHandler,
-    MessageHandler,
-    Filters,
-    CallbackContext,
-    CallbackQueryHandler,
-)
 
 
 class SpeechBotTask(Task):
