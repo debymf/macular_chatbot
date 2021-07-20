@@ -22,13 +22,15 @@ class EvaluateVectorsTask(Task):
         else:
             return 0
 
-    def run(self, input_data):
+    def run(self, input_data, score_function=util.cos_sim):
         total_questions = 0
         recall_at_1 = 0
         recall_at_3 = 0
         recall_at_5 = 0
         for content in tqdm(input_data["questions_embedding"]):
-            retrieved = self.get_closest(content, input_data["facts_embedding"])[0]
+            retrieved = self.get_closest(
+                content, input_data["facts_embedding"], score_function
+            )[0]
             retrieved_index = [result["corpus_id"] for result in retrieved]
             answer = input_data["mapping"][total_questions]
 
