@@ -13,10 +13,12 @@ from macular_chatbot.tasks.transformers import (
     PreparePairsForTrainingTask,
     TrainSentenceTransformerTask,
 )
+from sentence_transformers import util
 import argparse
 from prefect import Flow, Parameter, Task, tags, task
 from dynaconf import settings
-from macular_chatbot.flows.evaluation.basic_qa_test_flow import run_test_flow
+
+# from macular_chatbot.flows.evaluation.basic_qa_test_flow import run_test_flow
 
 checkpoint_dir = settings["checkpoint_dir"]
 TASK_NAME = "train_liveqa_flow"
@@ -109,4 +111,12 @@ with Flow("Training model with LiveQA") as flow1:
 
 FlowRunner(flow=flow1).run()
 
-run_test_flow(used_model=MODEL_OUTPUT, score_function=score_function_eval)
+logger.info(f"*** RESULTS ***")
+logger.info(f"*** MODEL: {USED_MODEL}")
+logger.info(f"*** LOSS: {LOSS_FUNCTION}")
+logger.info(f"*** SCORING FUNCTION: {SCORING_FUNCTION}")
+logger.info(f"*** NUM EPOCHS: {NUM_EPOCHS}")
+
+macular_chatbot.flows.evaluation.basic_qa_test_flow.run_test_flow(
+    used_model=MODEL_OUTPUT, score_function=score_function_eval
+)
