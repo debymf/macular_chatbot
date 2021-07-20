@@ -155,7 +155,7 @@ class BM25Search:
     def run(self, query_input: Dict, ix, limit=50):
         vectorizer, transformed_corpus, ids = ix
         query_output = {}
-        for id, query in query_input.items():
+        for id, query in tqdm(query_input.items()):
             transformed_query = vectorizer.transform([query])
             TFIDF_dist = cosine_distances(transformed_query, transformed_corpus)
             res = {}
