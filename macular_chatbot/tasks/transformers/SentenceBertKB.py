@@ -33,11 +33,6 @@ class SentenceBertKB:
 
         probability_retrieved_answer = hits[0][0]["score"]
 
-<<<<<<< HEAD
-=======
-        print(retrieved_answer)
-
->>>>>>> 29004202fc5f430d9602bb66512600b0db526c7c
         if probability_retrieved_answer < 0.50:
             retrieved_answer = "I don't know the answer to that one! :("
 
