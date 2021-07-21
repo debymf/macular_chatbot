@@ -3,7 +3,7 @@ import random
 from .bm25 import BM25Fit, BM25Search
 
 
-def gen_negative_pairs(questions, all_answers, num_neg=10):
+def gen_negative_pairs(questions, all_answers, num_neg=50):
 
     fit_class = BM25Fit()
     ix = fit_class.run(all_answers)
