@@ -1,18 +1,51 @@
 from prefect import Task
 from loguru import logger
 import pandas as pd
+import random
 
 
 class PrepareDataTask(Task):
     def run(self, input_file_location):
         logger.info("** Running Prepare Data Task **")
         input_data = pd.read_csv(input_file_location)
-        output_dict = dict()
+
+        facts = list()
+        logger.info("Creating KB with facts.")
+        for index, row in input_data.iterrows():
+            facts.append(row["answer"])
+
+        facts = list(set(facts))
+        random.shuffle(facts)
+
+        facts_mapping = dict()
+        facts_kb = dict()
+
+        count = 0
+        for f in facts:
+            facts_mapping[f] = count
+            facts_kb[count] = f
+            count += 1
+
+        questions = dict()
+        qa_mapping = dict()
 
         for index, row in input_data.iterrows():
-            output_dict[index] = {
-                "question": row["Question"],
-                "answer": row["Answer"],
-                "extra_info": row["Extra"],
-            }
-        return output_dict
+            questions[index] = row["question"]
+            qa_mapping[index] = facts_mapping[row["answer"]]
+
+        return {"questions": questions, "facts": facts_kb, "mapping": qa_mapping}
+
+
+# class PrepareDataTask(Task):
+#     def run(self, input_file_location):
+#         logger.info("** Running Prepare Data Task **")
+#         input_data = pd.read_csv(input_file_location)
+#         output_dict = dict()
+
+#         for index, row in input_data.iterrows():
+#             output_dict[index] = {
+#                 "question": row["question"],
+#                 "answer": row["Answer"],
+#                 # "extra_info": row["Extra"],
+#             }
+#         return output_dict

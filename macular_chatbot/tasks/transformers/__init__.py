@@ -1,1 +1,5 @@
 from .convert_to_vectors import ConvertToVectorsTask
+from .evaluate_vectors import EvaluateVectorsTask
+from .prepare_pairs_for_training import PreparePairsForTrainingTask
+from .train_sentence_transformer import TrainSentenceTransformerTask
+from .generate_kb_task import GenerateKBTask
