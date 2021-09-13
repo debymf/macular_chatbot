@@ -16,10 +16,18 @@ class GenNegativePairsTask(Task):
         all_answers = dict()
         all_questions = dict()
         count = 0
+
         logger.info("** Generating negative pairs **")
+
+        all_answers_list = list()
         for p in tqdm(positive_pairs):
             all_questions[count] = p[0]
-            all_answers[count] = p[1]
+            all_answers_list.append(p[1])
+            count = count + 1
+
+        count = 0
+        for a in tqdm(all_answers_list):
+            all_answers[count] = a
             count = count + 1
 
         retrieved_results = gen_negative_pairs(

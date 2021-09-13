@@ -1,4 +1,4 @@
-# python -m macular_chatbot.flows.training.train_liveqa_flow --model="msmarco-distilbert-base-v4" --batch_size=16 --epochs=1 --scoring_function="cos" --loss="ContrastiveLoss"
+# python -m macular_chatbot.flows.training.similar_questions.train_liveqa_flow --model="msmarco-distilbert-base-v4" --batch_size=16 --epochs=1 --scoring_function="cos" --loss="ContrastiveLoss"
 
 from prefect import Flow
 import prefect

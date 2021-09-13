@@ -3,19 +3,23 @@ from sentence_transformers import SentenceTransformer, util
 
 
 class SentenceBertKB:
-    def __init__(self, input_data, model):
+    def __init__(self, input_data, short_answers, model):
         self.model = SentenceTransformer(model)
 
         all_facts = [content for id_question, content in input_data.items()]
         all_ids = [id_question for id_question, content in input_data.items()]
+        all_short_answers = [content["short"] for id_, content in short_answers.items()]
+        all_long_answers = [content["long"] for id_, content in short_answers.items()]
 
         self.embeddings = self.model.encode(all_facts)
 
         self.kb = dict()
 
-        for id_fact, fact, embedding in zip(all_ids, all_facts, self.embeddings):
+        for id_fact, fact, short_answer, long_answer, embedding in zip(all_ids, all_facts, all_short_answers, all_long_answers,self.embeddings):
             self.kb[len(self.kb)] = {
                 "fact": fact,
+                "short": short_answer,
+                "long": long_answer,
                 "embedding": embedding,
             }
 
@@ -31,13 +35,18 @@ class SentenceBertKB:
         )
 
         retrieved_answer = self.kb[hits[0][0]["corpus_id"]]["fact"]
+        retrieved_short = self.kb[hits[0][0]["corpus_id"]]["short"]
+        retrieved_long = self.kb[hits[0][0]["corpus_id"]]["long"]
+
+        if retrieved_long=='':
+            retrieved_long = False
 
         probability_retrieved_answer = hits[0][0]["score"]
 
         if probability_retrieved_answer < 0.50:
             retrieved_answer = "I don't know the answer to that one! :("
 
-        return retrieved_answer, probability_retrieved_answer
+        return retrieved_answer, probability_retrieved_answer, retrieved_short, retrieved_long
 
 
 # class SentenceBertKB:
