@@ -111,7 +111,7 @@ class SpeechBotTask(Task):
         logger.info("*** Starting speech based bot ***")
         r = sr.Recognizer()
         flag = True
-        start_intro = "My name is Jarvis. I will answer your queries about Macular degeneration. If you want to exit, say Bye"
+        start_intro = "My name is Eve. I will answer your queries about Macular degeneration. Please don't speak too fast, I am still improving my English. If you want to exit, say Bye"
 
         self.read_sentence(start_intro)
 
