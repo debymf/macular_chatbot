@@ -87,7 +87,8 @@ else:
     score_function_eval = util.dot_score
 
 TASK_NAME = "train_macular_flow"
-file_location = settings["basic_qa_data"]
+#file_location = settings["basic_qa_data"]
+file_location = settings["macular_qa_data"]
 MODEL_OUTPUT = "./models/" + USED_MODEL + "_macular"
 cache_args = dict(
     target="{task_name}-{task_tags}.pkl",

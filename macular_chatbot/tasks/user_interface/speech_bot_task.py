@@ -147,9 +147,18 @@ class SpeechBotTask(Task):
                             (
                                 predicted_answer,
                                 score,
+                                short_answer, 
+                                long_answer
                             ) = self.kb.get_closest(input_embedding)
 
-                            self.read_sentence(predicted_answer)
+                            self.read_sentence(short_answer)
+                            if long_answer:
+                                self.read_sentence("Wanna hear more about this?")
+                                user_response = self.get_sentence_input(r)
+                                if "yes" in user_response:
+                                    self.read_sentence(long_answer)
+
+
                             print(
                                 "\033[93m {}\033[00m".format(
                                     "Jarvis said:" + predicted_answer

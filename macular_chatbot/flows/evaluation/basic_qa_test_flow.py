@@ -14,7 +14,8 @@ import argparse
 
 checkpoint_dir = settings["checkpoint_dir"]
 TASK_NAME = "chatbot_flow"
-file_location = settings["basic_qa_data"]
+#file_location = settings["basic_qa_data"]
+file_location = settings["macular_qa_data_test"]
 # USED_MODEL = "paraphrase-mpnet-base-v2"
 
 

@@ -36,7 +36,7 @@ chatbot_task = SpeechBotTask()
 speech_classifier = SpeechClassifierTask(**cache_args)
 with Flow("Testing speech based chatbot") as flow1:
     input_data = prepare_data_task(file_location)
-    kb = gen_kb(input_data["facts"], USED_MODEL)
+    kb = gen_kb(input_data["facts"], input_data["short_answer"], USED_MODEL)
     s_classifier = speech_classifier()
     chatbot_task(kb, s_classifier)
 

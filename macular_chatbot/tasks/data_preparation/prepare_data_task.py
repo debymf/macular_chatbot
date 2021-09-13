@@ -28,12 +28,14 @@ class PrepareDataTask(Task):
 
         questions = dict()
         qa_mapping = dict()
+        short_answer = dict()
 
         for index, row in input_data.iterrows():
             questions[index] = row["question"]
             qa_mapping[index] = facts_mapping[row["answer"]]
+            short_answer[facts_mapping[row["answer"]]] = {"short": row["answer_short"], "long": row["answer_long"]}
 
-        return {"questions": questions, "facts": facts_kb, "mapping": qa_mapping}
+        return {"questions": questions, "facts": facts_kb, "mapping": qa_mapping, "short_answer": short_answer}
 
 
 # class PrepareDataTask(Task):
