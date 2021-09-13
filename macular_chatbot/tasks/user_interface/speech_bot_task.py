@@ -80,13 +80,18 @@ class SpeechBotTask(Task):
 
     @staticmethod
     def get_sentence_input(r):
+        
         user_response = None
         with sr.Microphone() as source:
+            r.adjust_for_ambient_noise(source) 
             audio = r.listen(source)
+            #audio = r.listen(source, timeout=2, phrase_time_limit=10)
+            print("Got Audio!")
         try:
             user_response = format(r.recognize_google(audio))
             print("\033[91m {}\033[00m".format("YOU SAID : " + user_response))
         except sr.UnknownValueError:
+            print("NOT RECOGNIZED")
             pass
         except Exception as e:
             print(e)
@@ -110,6 +115,8 @@ class SpeechBotTask(Task):
         self.kb = kb
         logger.info("*** Starting speech based bot ***")
         r = sr.Recognizer()
+        r.energy_threshold = 50
+        #r.dynamic_energy_threshold=True
         flag = True
         start_intro = "My name is Eve. I will answer your queries about Macular degeneration. Please don't speak too fast, I am still improving my English. If you want to exit, say Bye"
 
