@@ -18,8 +18,9 @@ from macular_chatbot.tasks.user_interface import SpeechBotTask, SpeechClassifier
 
 checkpoint_dir = settings["checkpoint_dir"]
 TASK_NAME = "speech_chatbot_flow"
-file_location = settings["basic_qa_data"]
-USED_MODEL = "./models/msmarco-distilbert-base-v4_live_qa"
+#file_location = settings["basic_qa_data"]
+file_location = "./data/all_questions.csv"
+USED_MODEL = "./models/all-mpnet-base-v2_macular"
 
 
 cache_args = dict(
