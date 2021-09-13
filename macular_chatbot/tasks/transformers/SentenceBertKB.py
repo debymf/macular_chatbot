@@ -20,6 +20,7 @@ class SentenceBertKB:
             }
 
     def encode_sentence(self, input_question):
+        TOKENIZERS_PARALLELISM=False
         question_embedding = self.model.encode(input_question)
 
         return question_embedding
