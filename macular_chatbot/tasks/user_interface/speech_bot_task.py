@@ -79,12 +79,14 @@ class SpeechBotTask(Task):
                 return random.choice(GREETING_RESPONSES)
 
     @staticmethod
-    def get_sentence_input(r):
-        
+    def get_sentence_input(r): 
         user_response = None
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source) 
+            print("I am Listening.")
             audio = r.listen(source)
+            with open("test.wav", "wb") as f:
+                f.write(audio.get_wav_data())
             #audio = r.listen(source, timeout=2, phrase_time_limit=10)
             print("Got Audio!")
         try:
@@ -115,7 +117,7 @@ class SpeechBotTask(Task):
         self.kb = kb
         logger.info("*** Starting speech based bot ***")
         r = sr.Recognizer()
-        r.energy_threshold = 50
+        #r.energy_threshold = 50
         #r.dynamic_energy_threshold=True
         flag = True
         start_intro = "My name is Eve. I will answer your queries about Macular degeneration. Please don't speak too fast, I am still improving my English. If you want to exit, say Bye"
@@ -152,11 +154,14 @@ class SpeechBotTask(Task):
                             ) = self.kb.get_closest(input_embedding)
 
                             self.read_sentence(short_answer)
-                            if long_answer:
-                                self.read_sentence("Wanna hear more about this?")
-                                user_response = self.get_sentence_input(r)
-                                if "yes" in user_response:
-                                    self.read_sentence(long_answer)
+                            # if long_answer and (long_answer!= long_answer):
+                            #     self.read_sentence("Wanna hear more about this? Say Yes or No.")
+                            #     user_response = self.get_sentence_input(r)
+                            #     if user_response:
+                            #         if "yes" in user_response:
+                            #             self.read_sentence(long_answer)
+                            #     else:
+                            #         self.read_sentence(long_answer)
 
 
                             print(

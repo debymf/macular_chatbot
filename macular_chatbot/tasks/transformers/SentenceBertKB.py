@@ -1,6 +1,6 @@
 from loguru import logger
 from sentence_transformers import SentenceTransformer, util
-
+import os
 
 class SentenceBertKB:
     def __init__(self, input_data, short_answers, model):
@@ -8,23 +8,22 @@ class SentenceBertKB:
 
         all_facts = [content for id_question, content in input_data.items()]
         all_ids = [id_question for id_question, content in input_data.items()]
-        all_short_answers = [content["short"] for id_, content in short_answers.items()]
-        all_long_answers = [content["long"] for id_, content in short_answers.items()]
-
+      
         self.embeddings = self.model.encode(all_facts)
 
         self.kb = dict()
 
-        for id_fact, fact, short_answer, long_answer, embedding in zip(all_ids, all_facts, all_short_answers, all_long_answers,self.embeddings):
+        for id_fact, fact,  embedding in zip(all_ids, all_facts, self.embeddings):
             self.kb[len(self.kb)] = {
                 "fact": fact,
-                "short": short_answer,
-                "long": long_answer,
+                "short": short_answers[fact]["short"],
+                "long":short_answers[fact]["long"],
                 "embedding": embedding,
             }
 
+
     def encode_sentence(self, input_question):
-        TOKENIZERS_PARALLELISM=False
+        os.environ["TOKENIZERS_PARALLELISM"] = "false"
         question_embedding = self.model.encode(input_question)
 
         return question_embedding
@@ -38,6 +37,9 @@ class SentenceBertKB:
         retrieved_short = self.kb[hits[0][0]["corpus_id"]]["short"]
         retrieved_long = self.kb[hits[0][0]["corpus_id"]]["long"]
 
+        print(retrieved_answer)
+        print(retrieved_short)
+        print(retrieved_long)
         if retrieved_long=='':
             retrieved_long = False
 
