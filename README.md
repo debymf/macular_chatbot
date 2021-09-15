@@ -4,7 +4,7 @@ The repo contains an end-to-end dialogue system designed for giving an easy way 
 
 ## Dataset
 
-The dataset is contained in the ``data` folder, it was scraped from several FAQS on official websites (such as the NHS) on topics related to Macular Degeneration. However, the code here can be easily adapted to work with other datasets, as long as it follows the same structure. I also included the LiveQA dataset and MedQUAD dataset for more generic health related topics.
+The dataset is contained in the ```data``` folder, it was scraped from several FAQS on official websites (such as the NHS) on topics related to Macular Degeneration. However, the code here can be easily adapted to work with other datasets, as long as it follows the same structure. I also included the LiveQA dataset and MedQUAD dataset for more generic health related topics.
 
 ## Installing the requirements
 
