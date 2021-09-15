@@ -17,7 +17,11 @@ pip install -r requirements.txt
 In order to train the model that will retrieve the correct answers based on the user's query, the following command should be run:
 
 ```
-python -m macular_chatbot.flows.training.similar_answers.train_macular_flow --model="sentence-transformers/all-mpnet-base-v2" --batch_size=16 --epochs=5 --scoring_function="cos" --loss="ContrastiveLoss"
+python -m macular_chatbot.flows.training.similar_answers.train_macular_flow --model="sentence-transformers/all-mpnet-base-v2" \
+                                                                            --batch_size=16 \
+                                                                            --epochs=5 \
+                                                                            --scoring_function="cos" \
+                                                                            --loss="ContrastiveLoss"
 
 ```
 
@@ -26,7 +30,11 @@ You can try with different models and parameters, but the ones shown above got t
 To train the model using LIVE QA or MedQUAD, the following commands can be used:
 
 ```
-python -m macular_chatbot.flows.training.similar_answers.train_medquad_flow --model="sentence-transformers/all-mpnet-base-v2" --batch_size=16 --epochs=5 --scoring_function="cos" --loss="ContrastiveLoss"
+python -m macular_chatbot.flows.training.similar_answers.train_medquad_flow --model="sentence-transformers/all-mpnet-base-v2" \
+                                                                            --batch_size=16 \
+                                                                            --epochs=5 \
+                                                                            --scoring_function="cos" \
+                                                                            --loss="ContrastiveLoss"
 
 ```
 
