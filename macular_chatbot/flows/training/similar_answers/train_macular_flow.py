@@ -1,10 +1,3 @@
-# python -m macular_chatbot.flows.training.train_medquad_flow --model="msmarco-distilbert-base-v4" ;
-# python -m macular_chatbot.flows.training.train_medquad_flow --model="msmarco-distilbert-base-tas-b" ;
-# python -m macular_chatbot.flows.training.train_medquad_flow --model="paraphrase-mpnet-base-v2" ;
-# python -m macular_chatbot.flows.training.train_medquad_flow --model="nq-distilbert-base-v1" ;
-# python -m macular_chatbot.flows.training.train_medquad_flow --model="msmarco-distilbert-base-v4" --batch_size=16 --epochs=1
-# python -m macular_chatbot.flows.training.train_macular_flow --model="msmarco-distilbert-base-v4" --batch_size=32 --epochs=1 --scoring_function="cos" --loss="ContrastiveLoss"
-
 from prefect import Flow
 import prefect
 from loguru import logger
