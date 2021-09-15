@@ -2,25 +2,25 @@ from loguru import logger
 from sentence_transformers import SentenceTransformer, util
 import os
 
+
 class SentenceBertKB:
     def __init__(self, input_data, short_answers, model):
         self.model = SentenceTransformer(model)
 
         all_facts = [content for id_question, content in input_data.items()]
         all_ids = [id_question for id_question, content in input_data.items()]
-      
+
         self.embeddings = self.model.encode(all_facts)
 
         self.kb = dict()
 
-        for id_fact, fact,  embedding in zip(all_ids, all_facts, self.embeddings):
+        for id_fact, fact, embedding in zip(all_ids, all_facts, self.embeddings):
             self.kb[len(self.kb)] = {
                 "fact": fact,
                 "short": short_answers[fact]["short"],
-                "long":short_answers[fact]["long"],
+                "long": short_answers[fact]["long"],
                 "embedding": embedding,
             }
-
 
     def encode_sentence(self, input_question):
         os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -37,10 +37,20 @@ class SentenceBertKB:
         retrieved_short = self.kb[hits[0][0]["corpus_id"]]["short"]
         retrieved_long = self.kb[hits[0][0]["corpus_id"]]["long"]
 
+        print("**** Complete Answer ****")
         print(retrieved_answer)
+        print("===")
+
+        print("*** Short Answer ***")
         print(retrieved_short)
+        print("===")
+
+        print("*** Long Answer ***")
         print(retrieved_long)
-        if retrieved_long=='':
+        print("===")
+        
+
+        if retrieved_long == "" or isinstance(retrieved_long, float):
             retrieved_long = False
 
         probability_retrieved_answer = hits[0][0]["score"]
@@ -48,7 +58,12 @@ class SentenceBertKB:
         if probability_retrieved_answer < 0.50:
             retrieved_answer = "I don't know the answer to that one! :("
 
-        return retrieved_answer, probability_retrieved_answer, retrieved_short, retrieved_long
+        return (
+            retrieved_answer,
+            probability_retrieved_answer,
+            retrieved_short,
+            retrieved_long,
+        )
 
 
 # class SentenceBertKB:

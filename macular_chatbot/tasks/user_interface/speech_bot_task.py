@@ -18,7 +18,6 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 
 
-# colour palet
 def prRed(skk):
     print("\033[91m {}\033[00m".format(skk))
 
@@ -79,16 +78,14 @@ class SpeechBotTask(Task):
                 return random.choice(GREETING_RESPONSES)
 
     @staticmethod
-    def get_sentence_input(r): 
+    def get_sentence_input(r):
         user_response = None
+
         with sr.Microphone() as source:
-            r.adjust_for_ambient_noise(source) 
-            print("I am Listening.")
+            prLightPurple("I am Listening.")
             audio = r.listen(source)
-            with open("test.wav", "wb") as f:
-                f.write(audio.get_wav_data())
-            #audio = r.listen(source, timeout=2, phrase_time_limit=10)
-            print("Got Audio!")
+            # audio = r.listen(source, timeout=2, phrase_time_limit=10)
+            prLightPurple("Got Audio!")
         try:
             user_response = format(r.recognize_google(audio))
             print("\033[91m {}\033[00m".format("YOU SAID : " + user_response))
@@ -113,27 +110,32 @@ class SpeechBotTask(Task):
             features["contains({})".format(word.lower())] = True
         return features
 
-    def run(self, kb, classifier):
+    def run(self, kb, classifier, audio_energy):
         self.kb = kb
         logger.info("*** Starting speech based bot ***")
         r = sr.Recognizer()
-        #r.energy_threshold = 50
-        #r.dynamic_energy_threshold=True
+        # r.energy_threshold = 600
+        r.energy_threshold = audio_energy
+
+        r.dynamic_energy_threshold = False
         flag = True
         start_intro = "My name is Eve. I will answer your queries about Macular degeneration. Please don't speak too fast, I am still improving my English. If you want to exit, say Bye"
-
+        # start_intro = "Hi"
         self.read_sentence(start_intro)
 
-        print("\033[93m {}\033[00m".format("Jarvis: " + start_intro))
+        print("\033[93m {}\033[00m".format("Eva: " + start_intro))
 
         while flag == True:
+            print("PRESS [ENTER] for next question.")
+            input()
             user_response = self.get_sentence_input(r)
             if user_response:
+
                 clas = classifier.classify(self.dialogue_act_features(user_response))
                 if clas != "Bye":
                     if clas == "Emotion":
                         flag = False
-                        prYellow("Jarvis: You are welcome..")
+                        prYellow("EVE: You are welcome..")
                     else:
                         if self.greeting(user_response) != None:
 
@@ -141,7 +143,7 @@ class SpeechBotTask(Task):
                             self.read_sentence(greeting_response)
                             print(
                                 "\033[93m {}\033[00m".format(
-                                    "Jarvis: " + greeting_response
+                                    "EVE: " + greeting_response
                                 )
                             )
                         else:
@@ -149,30 +151,33 @@ class SpeechBotTask(Task):
                             (
                                 predicted_answer,
                                 score,
-                                short_answer, 
-                                long_answer
+                                short_answer,
+                                long_answer,
                             ) = self.kb.get_closest(input_embedding)
 
                             self.read_sentence(short_answer)
-                            # if long_answer and (long_answer!= long_answer):
-                            #     self.read_sentence("Wanna hear more about this? Say Yes or No.")
-                            #     user_response = self.get_sentence_input(r)
-                            #     if user_response:
-                            #         if "yes" in user_response:
-                            #             self.read_sentence(long_answer)
-                            #     else:
-                            #         self.read_sentence(long_answer)
-
+                            if long_answer:
+                                self.read_sentence(
+                                    "Wanna hear more about this? Say Yes or No."
+                                )
+                                print("PRESS [ENTER] for next question.")
+                                input()
+                                user_response = self.get_sentence_input(r)
+                                if user_response:
+                                    if "yes" in user_response:
+                                        self.read_sentence(long_answer)
+                                else:
+                                    self.read_sentence(long_answer)
 
                             print(
                                 "\033[93m {}\033[00m".format(
-                                    "Jarvis said:" + predicted_answer
+                                    "EVE said:" + predicted_answer
                                 )
                             )
                 else:
                     flag = False
-                    prYellow("Jarvis: Bye! take care..")
-                    self.read_sentence("Bye! take care..")
+                    prYellow("Eva: Bye! take care now..")
+                    self.read_sentence("Bye! take care now..")
 
     # def echo(self, update: Update, _: CallbackContext) -> None:
 
