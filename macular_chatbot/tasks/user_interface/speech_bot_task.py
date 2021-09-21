@@ -11,6 +11,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 import warnings
 from gtts import gTTS
 import os
+import time
+import beepy
 
 warnings.filterwarnings("ignore")
 import speech_recognition as sr
@@ -70,7 +72,7 @@ class SpeechBotTask(Task):
             "*nods*",
             "hi there",
             "hello",
-            "I am glad! You are talking to me",
+            "I am glad you are talking to me",
         ]
         """If user's input is a greeting, return a greeting response"""
         for word in sentence.split():
@@ -90,7 +92,7 @@ class SpeechBotTask(Task):
             user_response = format(r.recognize_google(audio))
             print("\033[91m {}\033[00m".format("YOU SAID : " + user_response))
         except sr.UnknownValueError:
-            print("NOT RECOGNIZED")
+            prRed("NOT RECOGNIZED")
             pass
         except Exception as e:
             print(e)
@@ -116,18 +118,20 @@ class SpeechBotTask(Task):
         r = sr.Recognizer()
         # r.energy_threshold = 600
         r.energy_threshold = audio_energy
-
         r.dynamic_energy_threshold = False
         flag = True
-        start_intro = "My name is Eve. I will answer your queries about Macular degeneration. Please don't speak too fast, I am still improving my English. If you want to exit, say Bye"
-        # start_intro = "Hi"
+        # start_intro = "My name is Eve. I will answer your queries about Macular degeneration. Please don't speak too fast, I am still improving my English. If you want to exit, say Bye"
+        start_intro = "Hi"
         self.read_sentence(start_intro)
 
         print("\033[93m {}\033[00m".format("Eva: " + start_intro))
 
         while flag == True:
-            print("PRESS [ENTER] for next question.")
+            prGreen("PRESS [ENTER] for next question.")
             input()
+
+            beepy.beep(sound=1)
+
             user_response = self.get_sentence_input(r)
             if user_response:
 
@@ -160,8 +164,10 @@ class SpeechBotTask(Task):
                                 self.read_sentence(
                                     "Wanna hear more about this? Say Yes or No."
                                 )
-                                print("PRESS [ENTER] for next question.")
+                                prGreen("PRESS [ENTER] for next question.")
                                 input()
+                                beepy.beep(sound=1)
+
                                 user_response = self.get_sentence_input(r)
                                 if user_response:
                                     if "yes" in user_response:
@@ -178,19 +184,3 @@ class SpeechBotTask(Task):
                     flag = False
                     prYellow("Eva: Bye! take care now..")
                     self.read_sentence("Bye! take care now..")
-
-    # def echo(self, update: Update, _: CallbackContext) -> None:
-
-    #     if score > 0.6 and self.extra_info != "None":
-    #         keyboard = [
-    #             [
-    #                 InlineKeyboardButton("Yes", callback_data="1"),
-    #                 InlineKeyboardButton("No", callback_data="2"),
-    #             ]
-    #         ]
-
-    #         reply_markup = InlineKeyboardMarkup(keyboard)
-
-    #         update.message.reply_text(
-    #             "Do you want more details?", reply_markup=reply_markup
-    #         )
