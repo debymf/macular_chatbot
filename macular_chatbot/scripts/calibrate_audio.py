@@ -29,7 +29,6 @@ for value in range(50, 1000, 50):
     r.energy_threshold = value
 
     get_sentence_input(r)
-
     reply = input("Continue calibrating? (y/n)")
     if reply != "y":
         logger.info(f"Finishing callirationg! Value for audio_energy: {value}")
